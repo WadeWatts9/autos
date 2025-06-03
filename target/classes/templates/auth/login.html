@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Veículos</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .login-card {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card login-card">
+                    <div class="card-header text-center text-white">
+                        <h4><i class="fas fa-car"></i> Sistema de Veículos</h4>
+                        <p class="mb-0">Faça login para continuar</p>
+                    </div>
+                    <div class="card-body">
+                        <!-- Mensagem de sucesso -->
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            Logout realizado com sucesso!
+                        </div>
+                        
+                        <!-- Mensagem de erro -->
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Email ou senha inválidos!
+                        </div>
+                        
+                        <!-- Mensagem de sucesso do registro -->
+                        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                        
+                        <form th:action="@{/login}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="username" name="username" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt"></i> Entrar
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <hr>
+                        
+                        <div class="text-center">
+                            <p class="mb-0">Não tem uma conta?</p>
+                            <a href="/register" class="btn btn-outline-primary">
+                                <i class="fas fa-user-plus"></i> Cadastrar-se
+                            </a>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="/" class="btn btn-link">
+                                <i class="fas fa-home"></i> Voltar ao Início
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Informações de teste -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6 class="card-title">Dados para teste:</h6>
+                        <p class="card-text small">
+                            <strong>Administrador:</strong><br>
+                            <strong>Email:</strong> admin@veiculos.com<br>
+                            <strong>Senha:</strong> admin123
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

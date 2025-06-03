@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Sistema de Veículos</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-car"></i> Sistema de Veículos
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/veiculos">Veículos</a>
+                    </li>
+                    <li class="nav-item dropdown" th:if="${categorias != null and !categorias.empty}">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Categorias
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li th:each="categoria : ${categorias}">
+                                <a class="dropdown-item" th:href="@{/categoria/{id}(id=${categoria.id})}" th:text="${categoria.nome}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <!-- Formulários de busca -->
+                <div class="d-flex me-3">
+                    <form class="d-flex me-2 search-form" action="/buscar/modelo" method="get">
+                        <input class="form-control form-control-sm me-1" type="search" name="modelo" placeholder="Buscar por modelo" required>
+                        <button class="btn btn-outline-light btn-sm" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    
+                    <form class="d-flex search-form" action="/buscar/ano" method="get">
+                        <input class="form-control form-control-sm me-1" type="number" name="ano" placeholder="Buscar por ano" min="1900" max="2030" required>
+                        <button class="btn btn-outline-light btn-sm" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Menu do usuário -->
+                <ul class="navbar-nav">
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" href="/register">Cadastrar</a>
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> <span sec:authentication="name"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/admin/veiculos">Gerenciar Veículos</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/admin/categorias">Gerenciar Categorias</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><hr class="dropdown-divider"></li>
+                            <li sec:authorize="hasRole('USER')"><a class="dropdown-item" href="/veiculos">Ver Veículos</a></li>
+                            <li sec:authorize="hasRole('USER')"><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="/logout" method="post" class="d-inline">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                    <button type="submit" class="dropdown-item">Sair</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4">Encontre o Veículo Ideal</h1>
+            <p class="lead mb-4">Explore nossa ampla seleção de veículos de todas as categorias</p>
+            <a href="/veiculos" class="btn btn-light btn-lg">
+                <i class="fas fa-search"></i> Ver Todos os Veículos
+            </a>
+        </div>
+    </section>
+
+    <!-- Categorias em Destaque -->
+    <div class="container my-5" th:if="${categorias != null and !categorias.empty}">
+        <h2 class="text-center mb-4">Categorias</h2>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 mb-3" th:each="categoria : ${categorias}">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-car fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title" th:text="${categoria.nome}"></h5>
+                        <a th:href="@{/categoria/{id}(id=${categoria.id})}" class="btn btn-primary">Ver Veículos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Veículos em Destaque -->
+    <div class="container my-5" th:if="${veiculos != null and !veiculos.empty}">
+        <h2 class="text-center mb-4">Veículos em Destaque</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" th:each="veiculo, iterStat : ${veiculos}" th:if="${iterStat.index < 6}">
+                <div class="card h-100">
+                    <img th:src="${veiculo.imagem != null ? veiculo.imagem : 'https://via.placeholder.com/400x300?text=Sem+Imagem'}" 
+                         class="card-img-top" th:alt="${veiculo.modelo}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${veiculo.marca + ' ' + veiculo.modelo}"></h5>
+                        <p class="card-text">
+                            <small class="text-muted" th:text="${veiculo.categoria.nome}"></small><br>
+                            <strong>Ano:</strong> <span th:text="${veiculo.ano}"></span><br>
+                            <strong>Cor:</strong> <span th:text="${veiculo.cor}"></span>
+                        </p>
+                        <a th:href="@{/veiculo/{id}(id=${veiculo.id})}" class="btn btn-primary">Ver Detalhes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/veiculos" class="btn btn-outline-primary btn-lg">Ver Todos os Veículos</a>
+        </div>
+    </div>
+
+    <!-- Mensagem quando não há veículos -->
+    <div class="container my-5" th:if="${veiculos == null or veiculos.empty}">
+        <div class="text-center">
+            <i class="fas fa-car fa-5x text-muted mb-3"></i>
+            <h3>Nenhum veículo cadastrado</h3>
+            <p class="text-muted">Seja o primeiro a cadastrar um veículo!</p>
+            <a href="/login" class="btn btn-primary" sec:authorize="!isAuthenticated()">Fazer Login</a>
+            <a href="/admin/veiculos/novo" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">Cadastrar Veículo</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container text-center">
+            <span class="text-muted">© 2024 Sistema de Veículos. Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/webjars/jquery/3.7.0/jquery.min.js"></script>
+</body>
+</html> 
