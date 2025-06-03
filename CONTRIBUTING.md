@@ -81,5 +81,13 @@ Al contribuir, aceptas que tus contribuciones serán licenciadas bajo la misma l
 Si tienes preguntas, no dudes en contactar al equipo de desarrollo:
 
 - Alan Canto (alan.canto@example.com)
+  - Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento
+
 - Walter Ramos (walter.ramos@example.com)
-- Ignacio Piñeyro (ignacio.pineyro@example.com) 
+  - Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento
+
+- Ignacio Piñeyro (ignacio.pineyro@example.com)
+  - Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento 

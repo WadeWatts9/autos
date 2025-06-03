@@ -114,13 +114,16 @@ src/
 ### Desarrolladores
 - **Alan Canto**
   - LinkedIn: [Alan Canto](https://www.linkedin.com/in/alancanto/)
-  - Rol: Desarrollador Full Stack
+  - Rol: Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento
 
 - **Walter Ramos**
-  - Rol: Desarrollador Backend
+  - Rol: Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento
 
 - **Ignacio Piñeyro**
-  - Rol: Desarrollador Frontend
+  - Rol: Desarrollador Junior
+  - Estudiante de TADS - IFSul Campus Santana do Livramento
 
 ## 🔒 Seguridad
 
